@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+	    <key>Label</key>
+	    <string>fr.meyn.search.plist</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>SEARCHPATH/smesearch</string>
+            <string>serve</string>
+            </array>
+        <key>RunAtLoad</key>
+        <true/>
+
+        <key>KeepAlive</key>
+        <true/>
+
+        <key>WorkingDirectory</key>
+        <string>SEARCHPATH/</string>
+
+        <key>StandardOutPath</key>
+        <string>SEARCHPATH/smesearch.std.log</string>
+
+        <key>StandardErrorPath</key>
+        <string>SEARCHPATH/smesearch.err.log</string>
+
+</dict>
+</plist>
