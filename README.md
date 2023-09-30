@@ -1,4 +1,4 @@
-![Smesearch](_images/logo.jpg)
+![Smesearch](https://github.com/olopost/smesearch/blob/main/_images/logo.jpg | width=465)
 # smesearch
 Hugo index for local on promise index and search
 
