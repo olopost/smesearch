@@ -1,5 +1,7 @@
-![Smesearch](https://github.com/olopost/smesearch/blob/main/_images/logo.jpg | width=465)
 # smesearch
+
+<img src="_images/logo.jpg" width="400px"/>
+
 Hugo index for local on promise index and search
 
 
@@ -10,6 +12,10 @@ SMESearch is a module for expose search to hugo website.
 This module can search through hugo site with search engine on promise.
 
 For the moment the search can be human type search like keyword or keysentence.
+
+# Capture
+
+<img src="_images/capture.png" style="zoom:50%;" />
 
 # Getting started
 
