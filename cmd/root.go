@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"log"
 	"os"
-	"os/user"
 	"path/filepath"
 	"smesearch/indexer"
 	"smesearch/searcher"
@@ -56,28 +54,11 @@ func init() {
 	}
 }
 
-func absIndexBase() string {
-	// Get the user's home directory
-	usr, err := user.Current()
-	if err != nil {
-		fmt.Println("Error:", err)
-		return ""
-	}
-
-	// Replace ~ with the home directory path
-	expandedPath := strings.Replace(indexDir+"/"+indexName, "~", usr.HomeDir, 1)
-	lindex, err := filepath.Abs(expandedPath)
-	if err != nil {
-		log.Fatal("cannot convert in absolute dir")
-	}
-	return lindex
-}
-
 var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "serve Daemon for Hugo",
 	Run: func(cmd *cobra.Command, args []string) {
-		service.Serve()
+		service.Serve(indexDir, indexName)
 	},
 }
 
@@ -86,8 +67,11 @@ var searchCmd = &cobra.Command{
 	Short: "Search something in Corpus",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		lindex := absIndexBase()
-		searcher.Search(lindex, args)
+		lindex := indexer.GetIndex(indexDir, indexName)
+		search := searcher.Search(lindex, args)
+		for _, hit := range search.Hits {
+			fmt.Println(hit.Score, "https://kb.local.meyn.fr/"+strings.TrimSuffix(hit.ID, ".md")+"/")
+		}
 	},
 }
 
@@ -95,7 +79,7 @@ var indexCmd = &cobra.Command{
 	Use:   "index",
 	Short: "Index Corpus",
 	Run: func(cmd *cobra.Command, args []string) {
-		lindex := absIndexBase()
+		lindex := indexer.GetIndex(indexDir, indexName)
 		// Check in indexBase exist
 		info, err := os.Stat(lindex)
 		if err != nil {

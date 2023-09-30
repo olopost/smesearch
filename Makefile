@@ -11,6 +11,9 @@ smesearch: *.go cmd/*.go indexer/*.go searcher/*.go service/*.go
 	go build smesearch.go
 
 
+unload-plist:
+	launchctl unload  ~/Library/LaunchAgents/fr.meyn.search.plist
+
 install-plist: install
 	cp $(SEARCHPATH)/fr.meyn.search.plist ~/Library/LaunchAgents
 	launchctl unload ~/Library/LaunchAgents/fr.meyn.search.plist

@@ -10,7 +10,30 @@ import (
 	"github.com/gohugoio/hugo/hugolib"
 	"log"
 	"os"
+	"path/filepath"
+	"strings"
 )
+
+func GetIndex(indexDir string, indexName string) string {
+	return absIndexBase(indexDir, indexName)
+}
+
+func absIndexBase(indexDir string, indexName string) string {
+	// Get the user's home directory
+	usr, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return ""
+	}
+
+	// Replace ~ with the home directory path
+	expandedPath := strings.Replace(indexDir+"/"+indexName, "~", usr, 1)
+	lindex, err := filepath.Abs(expandedPath)
+	if err != nil {
+		log.Fatal("cannot convert in absolute dir")
+	}
+	return lindex
+}
 
 func IndexHugo(index bleve.Index, hugoPath string) {
 	osFs := hugofs.Os
