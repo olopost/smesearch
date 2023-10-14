@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,6 +9,12 @@ import (
 	"smesearch/searcher"
 	"strings"
 )
+
+type SmeResponse struct {
+	Score    float64
+	Location string
+	Fragment string
+}
 
 var (
 	s_indexDir  string
@@ -22,10 +29,17 @@ func writeResponse(w http.ResponseWriter, r *http.Request) http.ResponseWriter {
 	w.Header().Set("Access-Control-Allow-Origin", "https://kb.local.meyn.fr")
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	var searchlist []SmeResponse
 	for _, hit := range res.Hits {
-		fmt.Fprintln(w, "<br/>")
-		fmt.Fprintln(w, hit.Fragments[""], "<a class='bluebtn' href='https://kb.local.meyn.fr/"+strings.TrimSuffix(hit.ID, ".md")+"/'>", hit.ID, "</a>")
+		loc := "https://kb.local.meyn.fr/" + strings.TrimSuffix(hit.ID, ".md") + "/"
+		tmp := SmeResponse{Score: hit.Score, Location: loc, Fragment: hit.Fragments[""][0]}
+		searchlist = append(searchlist, tmp)
 	}
+	jsonResp, err := json.Marshal(searchlist)
+	if err != nil {
+		log.Println(err)
+	}
+	w.Write(jsonResp)
 	return w
 }
 

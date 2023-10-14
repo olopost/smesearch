@@ -15,7 +15,7 @@ For the moment the search can be human type search like keyword or keysentence.
 
 # Capture
 
-<img src="_images/capture.png" style="zoom:50%;" />
+<img src="_images/capture.jpeg" style="zoom:50%;" />
 
 # Getting started
 
@@ -78,4 +78,34 @@ Or put manually the following command
 	cp smesearch/fr.meyn.search.plist ~/Library/LaunchAgents
 	launchctl load ~/Library/LaunchAgents/fr.meyn.search.plist
 	launchctl list | grep fr.meyn
+```
+
+## Integration in Hugo theme
+
+### Example of integration
+
+```javascript
+   document.getElementById("search-btn").onclick = function(e) {
+              document.getElementById("res").innerHTML = "";
+         var xhttp = new XMLHttpRequest();
+              var data = new FormData();
+              data.append('q', document.getElementById("search-input").value);
+              fetch("https://search.local.meyn.fr:8030/search", {
+                  method: 'post',
+                  body: data,
+              }).then((response) => {
+                  if (response.ok) {
+                      return response.json();
+                  }
+                  throw new Error('Something went wrong');
+              }).then((responseJson) => {
+              document.getElementById("res").innerHTML += '<div class="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
+  <div class="absolute inset-0 -z-10 overflow-hidden">';
+                  for (let i = 0; i < responseJson.length; i++) {
+                      document.getElementById("res").innerHTML += '<a class="btn bluebtn" href="' + responseJson[i].Location + '">' + responseJson[i].Score + '</a><br/>'
+                  }
+                  document.getElementById("res").innerHTML += '</div></div>'
+              });
+         
+     };
 ```
