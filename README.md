@@ -15,7 +15,17 @@ For the moment the search can be human type search like keyword or keysentence.
 
 # Capture
 
+Search and index with the cli
+
 <img src="_images/capture.jpeg" style="zoom:50%;" />
+
+
+
+Embed smesearch with hugo page / and theme javascript
+
+![Demo in Hugo](./_images/Smesearch.gif)
+
+
 
 # Getting started
 
